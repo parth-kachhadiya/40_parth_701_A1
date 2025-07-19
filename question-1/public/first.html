@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AJAX /gethello Example</title>
+  <!-- Load jQuery from CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+    
+    #fetchBtn {
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto 30px;
+      padding: 12px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    #fetchBtn:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    #fetchBtn:active {
+      transform: translateY(0);
+    }
+    
+    #result {
+      min-height: 60px;
+      padding: 20px;
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .loading {
+      color: #7f8c8d;
+      font-style: italic;
+    }
+    
+    .error {
+      color: #e74c3c;
+      background-color: #fadbd8;
+    }
+    
+    .success {
+      color: #27ae60;
+      background-color: #d5f5e3;
+    }
+    
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+      
+      #result {
+        padding: 15px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Click below to call /gethello</h2>
+  <button id="fetchBtn">Fetch Message</button>
+  <p id="result">Your message will appear here</p>
+
+  <script>
+    // jQuery AJAX Call with enhanced UI feedback
+    $('#fetchBtn').click(function() {
+      const $result = $('#result');
+      const $btn = $(this);
+      
+      // Show loading state
+      $result.removeClass('error success').addClass('loading');
+      $result.text('Loading...');
+      $btn.prop('disabled', true).css('opacity', '0.7');
+      
+      $.ajax({
+        url: '/gethello',
+        method: 'GET',
+        success: function(response) {
+          $result.removeClass('loading').addClass('success');
+          $result.text(response);
+        },
+        error: function(xhr, status, error) {
+          $result.removeClass('loading').addClass('error');
+          $result.text('Error: ' + (xhr.responseText || 'Request failed'));
+        },
+        complete: function() {
+          $btn.prop('disabled', false).css('opacity', '1');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

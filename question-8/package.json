@@ -1,0 +1,14 @@
+{
+    "name": "my-app",
+    "version": "1.0.0",
+    "main": "app.js",
+    "scripts": {
+      "server": "node app.js",
+      "test": "node test.js",
+      "greet": "echo Hello Developer!",
+      "zip": "node zip.js",
+      "extract": "node extract.js"
+    },
+    "dependencies": {}
+  }
+  
